@@ -58,9 +58,6 @@ jobs:
     needs: build-image
     runs-on: ubuntu-latest
     if: github.repository == 'Mxy0934/ismxy-web'
-    env:
-      sourceDir: 'web/k8s/'
-      targetDir: '/root/yaml/application/frontend/myweb'
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -70,7 +67,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.REMOTE_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_SSH_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_SSH_USER }}
-          SOURCE: '$sourceDir'
-          TARGET: '$targetDir'
+          SOURCE: 'web/k8s/'
+          TARGET: '/root/yaml/application/frontend/myweb'
           SCRIPT_AFTER: |
-            kubectl apply -f '$targetDir/*'
+            kubectl apply -f /root/yaml/application/frontend/myweb/*
