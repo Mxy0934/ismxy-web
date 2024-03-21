@@ -55,7 +55,7 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/myweb:latest
 
   deploy-to-server:
-    #needs: build-image
+    needs: build-image
     runs-on: ubuntu-latest
     if: github.repository == 'Mxy0934/ismxy-web'
     env:
@@ -64,15 +64,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Obs dircetory
-        run: ls -l
       - name: Deploy to server
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.REMOTE_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_SSH_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_SSH_USER }}
-          SOURCE: $env.sourceDir
-          TARGET: $env.targetDir
+          SOURCE: ${sourceDir}
+          TARGET: ${targetDir}
           SCRIPT_AFTER: |
-            kubectl apply -f ${env.targetDir}/*
+            kubectl apply -f ${targetDir}/*
