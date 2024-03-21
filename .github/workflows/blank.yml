@@ -67,9 +67,5 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.REMOTE_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_SSH_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_SSH_USER }}
-          SCRIPT_BEFORE: |
-            whoami
-            ls -al
           SCRIPT_AFTER: |
-            whoami
-            ls -al
+            kubeclt get pods -A
