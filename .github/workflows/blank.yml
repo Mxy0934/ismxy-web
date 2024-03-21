@@ -65,4 +65,4 @@ jobs:
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
-          args: rollout restart deployment my-deployment
+          args: get pods -A 
