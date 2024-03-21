@@ -70,7 +70,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.REMOTE_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_SSH_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_SSH_USER }}
-          SOURCE: ${sourceDir}
-          TARGET: ${targetDir}
+          SOURCE: $sourceDir
+          TARGET: $targetDir
           SCRIPT_AFTER: |
-            kubectl apply -f ${targetDir}/*
+            kubectl apply -f $targetDir/*
