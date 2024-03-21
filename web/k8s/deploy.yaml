@@ -18,7 +18,8 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: docker.io/mugang0934/myweb:0.0.5
+        image: docker.io/mugang0934/myweb:latest
+        imagePullPolicy: Always
         
 ---
 apiVersion: v1
