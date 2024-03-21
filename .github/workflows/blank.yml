@@ -19,7 +19,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  build-image:
     # The type of runner that the job will run on
     # 作业运行的系统环境（运行时环境）
     runs-on: ubuntu-latest
@@ -30,25 +30,19 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       # 跳转到当前仓库的$GITHUB_WORKSPACE目录，以便访问仓库中的代码
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
 
-      # Runs a single command using the runners shell
-      # name 为步骤名称，run 为运行shell脚本
-      - name: show repository Structure
-        run: ls 
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      # Runs a set of commands using the runners shell
-      # 运行一组命令
-      - name: docker build image
-        run: docker build -t myweb .
-
-      - name: docker tag image
-        run: docker tag myweb mugang0934/myweb:0.0.5
-
-      - name: docker hub login
-        env: 
-          docker_hub_username: ${{secrets.DOCKER_HUB_USERNAME}}
-          docker_hub_password: ${{secrets.DOCKER_HUB_PASSWORD}}
-        run: docker login -u ${docker_hub_username} -p ${docker_hub_password}
-      
-      - name: docker push image
-        run: docker push mugang0934/myweb:0.0.5
+      - name: Build and push Docker images to docker.io
+        uses: docker/build-push-action@v2
+        with:
+          platforms: linux/amd64 # 设置构建平台为 linux/amd64
+          context: . # Docker 构建上下文设置为当前目录
+          push: true # 设置为真以确保构建后的镜像被推送
+          tags: ${{ secrets.DOCKER_USERNAME }}/myweb:latest
