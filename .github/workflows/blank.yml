@@ -67,5 +67,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.REMOTE_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_SSH_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_SSH_USER }}
+          SOURCE: "/k8s/"
+          TARGET: "/root/yaml/application/frontend/myweb"
           SCRIPT_AFTER: |
-            kubeclt get pods -A
+            kubectl get pods -A
