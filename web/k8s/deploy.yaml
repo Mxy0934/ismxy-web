@@ -25,12 +25,12 @@ spec:
           protocol: TCP
           name: http
         resources:
-        - requests:
-          cpu: 5m
-          memory: 20Mi
-        - limits:
-          cpu: 10m
-          memory: 40Mi
+          requests:
+            cpu: 5m
+            memory: 20Mi
+          limits:
+            cpu: 10m
+            memory: 40Mi
 ---
 apiVersion: v1
 kind: Service
