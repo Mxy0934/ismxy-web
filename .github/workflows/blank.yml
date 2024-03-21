@@ -19,7 +19,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build-image:
+  build:
     # The type of runner that the job will run on
     # 作业运行的系统环境（运行时环境）
     runs-on: ubuntu-latest
@@ -53,9 +53,16 @@ jobs:
           context: . # Docker 构建上下文设置为当前目录
           push: true # 设置为真以确保构建后的镜像被推送
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/myweb:latest
+      - name: send notification
+        run: |
+          curl --location --request POST 'https://api.anpush.com/push/${{secrets.ANPUSH_KEY}}' \
+          --header 'Content-Type: application/x-www-form-urlencoded' \
+          --data-urlencode 'title=build image success' \
+          --data-urlencode 'content=build myweb image success' \
+          --data-urlencode 'channel=57828'
 
-  deploy-to-server:
-    needs: build-image
+  deploy:
+    needs: build
     runs-on: ubuntu-latest
     if: github.repository == 'Mxy0934/ismxy-web'
     steps:
@@ -71,3 +78,10 @@ jobs:
           TARGET: '/root/yaml/application/frontend/myweb'
           SCRIPT_AFTER: |
             kubectl apply -f /root/yaml/application/frontend/myweb/*
+      - name: send notification
+        run: |
+          curl --location --request POST 'https://api.anpush.com/push/${{secrets.ANPUSH_KEY}}' \
+          --header 'Content-Type: application/x-www-form-urlencoded' \
+          --data-urlencode 'title=deploy to k3s success' \
+          --data-urlencode 'content=deploy image to k3s success' \
+          --data-urlencode 'channel=57828'
