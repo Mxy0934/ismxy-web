@@ -56,8 +56,8 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - oxyo.xyz
-    secretName: oxyo-tls
+    - ismxy.cn
+    secretName: tls-ismxy
   rules:
   - host: "ismxy.cn"
     http:
