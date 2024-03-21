@@ -46,8 +46,8 @@ jobs:
 
       - name: docker hub login
         env: 
-          docker_hub_username: ${{DOCKER_HUB_USERNAME}}
-          docker_hub_password: ${{DOCKER_HUB_PASSWORD}}
+          docker_hub_username: ${{secrets.DOCKER_HUB_USERNAME}}
+          docker_hub_password: ${{secrets.DOCKER_HUB_PASSWORD}}
         run: docker login -u ${docker_hub_username} -p ${docker_hub_password}
       
       - name: docker push image
