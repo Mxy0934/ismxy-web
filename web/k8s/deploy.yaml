@@ -20,7 +20,17 @@ spec:
       - name: nginx
         image: docker.io/mugang0934/myweb:latest
         imagePullPolicy: Always
-        
+        ports:
+        - containerPort: 80
+          protocol: TCP
+          name: http
+        resources:
+        - requests:
+          cpu: 5m
+          memory: 20Mi
+        - limits:
+          cpu: 10m
+          memory: 40Mi
 ---
 apiVersion: v1
 kind: Service
