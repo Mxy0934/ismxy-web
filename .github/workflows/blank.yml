@@ -48,7 +48,7 @@ jobs:
         env: 
           docker_hub_username: ${{DOCKER_HUB_USERNAME}}
           docker_hub_password: ${{DOCKER_HUB_PASSWORD}}
-        return: docker login -u ${docker_hub_username} -p ${docker_hub_password}
+        run: docker login -u ${docker_hub_username} -p ${docker_hub_password}
       
       - name: docker push image
         run: docker push mugang0934/myweb:0.0.5
