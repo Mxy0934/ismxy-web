@@ -9,8 +9,8 @@ on:
   # 当主分支存在 push 或者 pull request请 求时触发任务
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
   # 允许, 从仓库的 Actions 选项卡手动运行当前工作流
@@ -33,12 +33,13 @@ jobs:
 
       # Runs a single command using the runners shell
       # name 为步骤名称，run 为运行shell脚本
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: show repository Structure
+        run: ls 
 
       # Runs a set of commands using the runners shell
       # 运行一组命令
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      - name: build image
+        run: docker build -t myweb .
+
+      - name: show image ls
+        run: docker images ls
