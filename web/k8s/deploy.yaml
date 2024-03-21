@@ -1,0 +1,70 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: frontend-nginx
+  name: frontend-nginx
+  namespace: application
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-nginx
+  template:
+    metadata:
+      labels:
+        app: frontend-nginx
+    spec:
+      containers:
+      - name: nginx
+        image: docker.io/mugang0934/myweb:0.0.5
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: frontend-nginx
+  name: frontend-nginx
+  namespace: application
+spec:
+  selector:
+    app: frontend-nginx
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress  
+metadata:
+  name: frontend-nginx-ingress
+  namespace: application
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - oxyo.xyz
+    secretName: oxyo-tls
+  rules:
+  - host: "ismxy.cn"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: frontend-nginx
+            port:
+              number: 80
+  - host: "www.ismxy.cn"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"  # 把请求会转给下面的服务，下面的服务一定要能处理这个路径，不能处理就是404
+        backend:
+          service:
+            name: frontend-nginx  ## java，比如使用路径重写，去掉前缀nginx
+            port:
+              number: 80
