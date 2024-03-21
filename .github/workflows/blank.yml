@@ -45,4 +45,4 @@ jobs:
           platforms: linux/amd64 # 设置构建平台为 linux/amd64
           context: . # Docker 构建上下文设置为当前目录
           push: true # 设置为真以确保构建后的镜像被推送
-          tags: ${{ secrets.DOCKER_USERNAME }}/myweb:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/myweb:latest
