@@ -77,6 +77,7 @@ jobs:
           SOURCE: 'web/k8s/'
           TARGET: '/root/yaml/application/frontend/myweb'
           SCRIPT_AFTER: |
+            ls -l \
             kubectl apply -f /root/yaml/application/frontend/myweb/*
       - name: send notification
         run: |
